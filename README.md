@@ -1,5 +1,5 @@
 # AtomicJava
-a peer-to-peer book review service analogous to movie platform like letterboxd. Independently design the data model, implemented backend services, secure access, and with high quality through testing.
+a spring backend for peer-to-peer book review service analogous to movie platform like **letterboxd** _(but without following, upvotes, etc etc)_. Independently design the data model, implemented backend services, secure access, and with high quality through testing.
 
 
 ## erDiagram
