@@ -27,6 +27,7 @@ public class Author {
     @Column(columnDefinition = "TEXT")
     private String biography;
 
+    @Column(name = "dob")
     private LocalDate birthDate;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
