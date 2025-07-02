@@ -7,25 +7,36 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    @Override
-    public Optional<User> findByUsernameOrEmail(String usernameOrEmail) {
-        return userRepository.findByUsername(usernameOrEmail); // Assuming username can be used for login
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public UserResponse createUser(User user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+        user.setRegistrationDate(LocalDateTime.now());
+        if (user.getRoles() == null) {
+            user.setRoles(new HashSet<>());
+        }
         User savedUser = userRepository.save(user);
         return toUserResponse(savedUser);
     }
@@ -47,10 +58,16 @@ public class UserServiceImpl implements UserService {
     public UserResponse updateUser(Long id, User userDetails) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id " + id));
+
         user.setUsername(userDetails.getUsername());
         user.setEmail(userDetails.getEmail());
-        // Password hash not updated here typically; handled via specific password change logic
-        // user.setPasswordHash(userDetails.getPasswordHash());
+        if (userDetails.getPasswordHash() != null && !userDetails.getPasswordHash().isEmpty()) {
+            user.setPasswordHash(passwordEncoder.encode(userDetails.getPasswordHash()));
+        }
+        if (userDetails.getRoles() != null) {
+            user.setRoles(userDetails.getRoles());
+        }
+
         User updatedUser = userRepository.save(user);
         return toUserResponse(updatedUser);
     }
@@ -74,13 +91,22 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsByEmail(email);
     }
 
+    @Override
+    public Optional<User> findByUsernameOrEmail(String usernameOrEmail) {
+        return userRepository.findByUsernameOrEmail(usernameOrEmail);
+    }
+
     private UserResponse toUserResponse(User user) {
-        UserResponse response = new UserResponse();
-        response.setId(user.getId());
-        response.setUsername(user.getUsername());
-        response.setEmail(user.getEmail());
-        response.setRegistrationDate(user.getRegistrationDate());
-        response.setRoles(user.getRoles() != null ? user.getRoles() : null);
-        return response;
+        return new UserResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getRegistrationDate(),
+                user.getRoles() != null ?
+                        user.getRoles().stream()
+                                .map(Enum::name)
+                                .collect(Collectors.toSet()) :
+                        new HashSet<>()
+        );
     }
 }

@@ -56,6 +56,8 @@ erDiagram
 
 ---
 
+JWT Secret generated using [uuidgenerator.net](https://www.uuidgenerator.net/version4)
+
 ### Snippets
 Some of the snippets I used throughout the development process.... (will update this section)
 `Populate data for Genre Table`

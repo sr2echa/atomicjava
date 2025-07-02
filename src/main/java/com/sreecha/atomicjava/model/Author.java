@@ -28,7 +28,7 @@ public class Author {
     private String biography;
 
     @Column(name = "dob")
-    private LocalDate birthDate;
+    private LocalDate dob;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Book> books;
