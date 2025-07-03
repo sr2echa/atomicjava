@@ -17,17 +17,19 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,17 +39,19 @@ import java.util.stream.Collectors;
 public class AuthController {
 
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
+        // Check if username already exists
         if (userService.existsByUsername(registerRequest.getUsername())) {
-            return new ResponseEntity("Username is already taken!", HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Username is already taken!");
         }
+
+        // Check if email already exists
         if (userService.existsByEmail(registerRequest.getEmail())) {
-            return new ResponseEntity("Email is already in use!", HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Email is already in use!");
         }
 
         User user = new User();
@@ -73,7 +77,13 @@ public class AuthController {
         user.setRoles(roles);
 
         UserResponse newUser = userService.createUser(user);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "User registered successfully");
+        response.put("user", newUser);
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
@@ -93,17 +103,24 @@ public class AuthController {
                     .map(item -> item.getAuthority())
                     .collect(Collectors.toList());
 
-            return ResponseEntity.ok(new LoginResponse(
+            LoginResponse loginResponse = new LoginResponse(
                     jwt,
                     user.getId(),
                     userDetails.getUsername(),
                     user.getEmail(),
                     new HashSet<>(roles)
-            ));
+            );
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("message", "Login successful");
+            response.put("data", loginResponse);
+
+            return ResponseEntity.ok(response);
         } catch (BadCredentialsException e) {
-            return new ResponseEntity<>("Invalid username/email or password", HttpStatus.UNAUTHORIZED);
+            throw new IllegalArgumentException("Invalid username/email or password");
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>("Authentication failed: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
+            throw new RuntimeException("Authentication failed: " + e.getMessage());
         }
     }
 }
