@@ -48,7 +48,6 @@ erDiagram
     User ||--o{ Review : "writes"
     Book }o--o{ Genre : "has"
 ```
-
 ## Features
 - **Robust Data Model:** Normalized data model with entities like Book, Author, User, Review, and Genre, including appropriate relationships, fetch strategies, cascade behaviors, and indexes for query efficiency.
 - **Role-Based Authentication & Authorization:** Secure access using Spring Security and JWT, ensuring users can only manage their own reviews and enforcing moderator/admin privileges for elevated actions.
@@ -156,7 +155,7 @@ All API endpoints are prefixed with `/api`.
 ## API Documentation (Swagger/OpenAPI)
 
 Access the interactive API documentation (Swagger UI) at:
-`http://localhost:18080/swagger-ui.html`
+`http://localhost:18080/swagger-ui/index.html`
 
 This interface allows you to explore all available endpoints, their request/response schemas, and even test them directly.
 
@@ -167,6 +166,9 @@ To run all unit and integration tests:
 ```bash
 ./mvnw test
 ```
+
+![image](https://github.com/user-attachments/assets/8e6f11c9-e71b-46cc-9242-cc452942b6af)
+
 
 ## CI/CD
 
