@@ -25,6 +25,6 @@ public class UserResponse {
     @Schema(description = "Registration date of the user", example = "2023-01-15T14:30:00")
     private LocalDateTime registrationDate;
 
-    @Schema(description = "Roles assigned to the user", example = "["USER"]")
+    @Schema(description = "Roles assigned to the user", example = "[\"USER\"]")
     private Set<String> roles;
 }

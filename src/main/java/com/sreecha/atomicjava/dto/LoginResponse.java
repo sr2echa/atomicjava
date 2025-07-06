@@ -24,6 +24,6 @@ public class LoginResponse {
     @Schema(description = "Email of the user", example = "john.doe@example.com")
     private String email;
 
-    @Schema(description = "Roles assigned to the user", example = "["USER"]")
+    @Schema(description = "Roles assigned to the user", example = "[\"USER\"]")
     private Set<String> roles;
 }
