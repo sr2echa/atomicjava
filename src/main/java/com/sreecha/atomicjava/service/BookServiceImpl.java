@@ -107,6 +107,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Page<BookResponse> searchBooks(String query, String authorName, String genreName, Pageable pageable) {
+        if (query != null && !query.isEmpty()) {
+            return bookRepository.findByTitleContainingIgnoreCaseOrAuthorNameContainingIgnoreCase(query, query, pageable)
+                    .map(this::toBookResponse);
+        } else if (authorName != null && !authorName.isEmpty()) {
+            return bookRepository.findByAuthorNameContainingIgnoreCase(authorName, pageable)
+                    .map(this::toBookResponse);
+        } else if (genreName != null && !genreName.isEmpty()) {
+            return bookRepository.findByGenresNameContainingIgnoreCase(genreName, pageable)
+                    .map(this::toBookResponse);
+        }
+        return bookRepository.findAll(pageable).map(this::toBookResponse);
+    }
+
+    @Override
     @Transactional
     public BookResponse updateBook(Long id, BookRequest bookRequest) {
         Book book = bookRepository.findById(id)

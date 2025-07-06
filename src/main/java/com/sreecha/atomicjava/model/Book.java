@@ -17,6 +17,9 @@ import java.util.Set;
 @Entity
 @Table(name = "books", uniqueConstraints = {
         @UniqueConstraint(columnNames = "isbn")
+}, indexes = {
+        @Index(name = "idx_book_title", columnList = "title"),
+        @Index(name = "idx_book_isbn", columnList = "isbn")
 })
 public class Book {
 
@@ -40,7 +43,7 @@ public class Book {
 
     private Double averageRating; // Will be calculated/updated based on reviews
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 

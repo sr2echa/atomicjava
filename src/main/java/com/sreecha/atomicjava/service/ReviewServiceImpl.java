@@ -64,6 +64,16 @@ public class ReviewServiceImpl implements ReviewService {
         return toReviewResponse(savedReview);
     }
 
+    private void updateBookAverageRating(Book book) {
+        Double averageRating = reviewRepository.findByBook(book, Pageable.unpaged())
+                .stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0.0);
+        book.setAverageRating(averageRating);
+        bookRepository.save(book);
+    }
+
     @Override
     public ReviewResponse getReviewById(Long id) {
         Review review = reviewRepository.findById(id)
@@ -104,7 +114,7 @@ public class ReviewServiceImpl implements ReviewService {
         // reviewDate usually not updated, maybe add a 'lastUpdatedDate' field if needed
 
         Review updatedReview = reviewRepository.save(review);
-        // TODO : Recalculate book average rating if rating changed
+        updateBookAverageRating(review.getBook());
         return toReviewResponse(updatedReview);
     }
 
@@ -119,6 +129,6 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         reviewRepository.delete(review);
-        // TODO : Recalculate book average rating
+        updateBookAverageRating(review.getBook());
     }
 }

@@ -8,6 +8,11 @@ import com.sreecha.atomicjava.dto.UserResponse;
 import com.sreecha.atomicjava.model.Role;
 import com.sreecha.atomicjava.model.User;
 import com.sreecha.atomicjava.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,14 +41,24 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
+@Tag(name = "Authentication", description = "User authentication and registration management")
 public class AuthController {
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 
+    @Operation(summary = "Register a new user",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "User registered successfully",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Map.class))),
+                    @ApiResponse(responseCode = "400", description = "Invalid input or user already exists",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Map.class)))
+            })
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<?> registerUser(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User registration request") @RequestBody RegisterRequest registerRequest) {
         // Check if username already exists
         if (userService.existsByUsername(registerRequest.getUsername())) {
             throw new IllegalArgumentException("Username is already taken!");
@@ -86,8 +101,17 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Authenticate user and return JWT token",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User authenticated successfully",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = LoginResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "Invalid credentials",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Map.class)))
+            })
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User login request") @RequestBody LoginRequest loginRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
@@ -100,7 +124,7 @@ public class AuthController {
                     .orElseThrow(() -> new RuntimeException("User not found after authentication"));
 
             List<String> roles = userDetails.getAuthorities().stream()
-                    .map(item -> item.getAuthority())
+                    .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
 
             LoginResponse loginResponse = new LoginResponse(

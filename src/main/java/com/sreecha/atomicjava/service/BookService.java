@@ -9,6 +9,7 @@ public interface BookService {
     BookResponse createBook(BookRequest bookRequest);
     BookResponse getBookById(Long id);
     Page<BookResponse> getAllBooks(Pageable pageable);
+    Page<BookResponse> searchBooks(String query, String authorName, String genreName, Pageable pageable);
     BookResponse updateBook(Long id, BookRequest bookRequest);
     void deleteBook(Long id);
 }
