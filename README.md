@@ -2,6 +2,53 @@
 
 A Spring Boot backend for a peer-to-peer book review service, analogous to platforms like Letterboxd (but without following, upvotes, etc.). This project focuses on a robust data model, secure access, and high-quality implementation through comprehensive testing.
 
+## erDiagram
+```mermaid
+erDiagram
+    User {
+        long id PK
+        string username UK
+        string email UK
+        string passwordHash
+        LocalDateTime registrationDate
+        string roles "ENUM/Set of Roles (USER, MODERATOR)"
+    }
+    Author {
+        long id PK
+        string name
+        string biography "Optional"
+        LocalDate birthDate "Optional"
+    }
+    Book {
+        long id PK
+        string title
+        string isbn UK
+        int publicationYear
+        string description "Optional"
+        string coverImageUrl "Optional"
+        double averageRating "Derived/Cached"
+        long author_id FK
+    }
+    Review {
+        long id PK
+        string title "Optional"
+        string content
+        int rating "1-5 stars"
+        LocalDateTime reviewDate
+        long user_id FK
+        long book_id FK
+    }
+    Genre {
+        long id PK
+        string name UK
+        string description "Optional"
+    }
+    Author ||--o{ Book : "writes"
+    Book ||--o{ Review : "has"
+    User ||--o{ Review : "writes"
+    Book }o--o{ Genre : "has"
+```
+
 ## Features
 - **Robust Data Model:** Normalized data model with entities like Book, Author, User, Review, and Genre, including appropriate relationships, fetch strategies, cascade behaviors, and indexes for query efficiency.
 - **Role-Based Authentication & Authorization:** Secure access using Spring Security and JWT, ensuring users can only manage their own reviews and enforcing moderator/admin privileges for elevated actions.
@@ -126,8 +173,6 @@ To run all unit and integration tests:
 This project includes a GitHub Actions workflow (`.github/workflows/maven.yml`) that automatically builds the project and runs tests on every `push` and `pull_request` event. This ensures code quality and helps prevent regressions.
 
 ---
-
-JWT Secret generated using [uuidgenerator.net](https://www.uuidgenerator.net/version4)
 
 ### Snippets
 Some of the snippets I used throughout the development process.... (will update this section)
