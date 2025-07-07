@@ -33,8 +33,8 @@ public class ReviewServiceImpl implements ReviewService {
                 review.getContent(),
                 review.getRating(),
                 review.getReviewDate(),
-                review.getUser() != null ? review.getUser().getId() : null, // Get user ID
-                review.getBook() != null ? review.getBook().getId() : null  // Get book ID
+                review.getUser() != null ? review.getUser().getId() : null,
+                review.getBook() != null ? review.getBook().getId() : null
         );
     }
 
@@ -51,15 +51,10 @@ public class ReviewServiceImpl implements ReviewService {
         review.setTitle(reviewRequest.getTitle());
         review.setContent(reviewRequest.getContent());
         review.setRating(reviewRequest.getRating());
-        review.setReviewDate(LocalDateTime.now()); // Set current time
-        review.setBook(book);
-        review.setUser(user);
+        review.setReviewDate(LocalDateTime.now());
 
         Review savedReview = reviewRepository.save(review);
 
-        // Optional: Recalculate book average rating here or in a separate step
-        // book.setAverageRating(calculateAverageRating(book.getId()));
-        // bookRepository.save(book);
 
         return toReviewResponse(savedReview);
     }
@@ -111,7 +106,6 @@ public class ReviewServiceImpl implements ReviewService {
         review.setTitle(reviewRequest.getTitle());
         review.setContent(reviewRequest.getContent());
         review.setRating(reviewRequest.getRating());
-        // reviewDate usually not updated, maybe add a 'lastUpdatedDate' field if needed
 
         Review updatedReview = reviewRepository.save(review);
         updateBookAverageRating(review.getBook());

@@ -27,10 +27,10 @@ public class Review {
     private String content;
 
     @Column(nullable = false)
-    private Integer rating; // Rating typically 1-5 stars
+    private Integer rating;
 
     @Column(nullable = false)
-    private LocalDateTime reviewDate; // When the review was submitted
+    private LocalDateTime reviewDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)

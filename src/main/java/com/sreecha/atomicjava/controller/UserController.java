@@ -36,9 +36,9 @@ public class UserController {
             })
     @GetMapping
     public ResponseEntity<Page<UserResponse>> getAllUsers(
-            @Parameter(description = "Page number (0-indexed)", example = "0")
+            @Parameter(example = "0")
             @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Number of items per page", example = "10")
+            @Parameter(example = "10")
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<UserResponse> users = userService.getAllUsers(pageable);
@@ -55,7 +55,7 @@ public class UserController {
             })
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUserById(
-            @Parameter(description = "ID of the user to retrieve", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id) {
         UserResponse user = userService.getUserById(id);
         return ResponseEntity.ok(user);
@@ -70,7 +70,7 @@ public class UserController {
                     @ApiResponse(responseCode = "403", description = "Forbidden: Requires ADMIN role")
             })
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User creation request") @RequestBody User user) {
+    public ResponseEntity<UserResponse> createUser(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody @RequestBody User user) {
         UserResponse createdUser = userService.createUser(user);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
@@ -86,9 +86,9 @@ public class UserController {
             })
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(
-            @Parameter(description = "ID of the user to update", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id,
-            @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User update request") @RequestBody User userDetails) {
+            @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody @RequestBody User userDetails) {
         UserResponse updatedUser = userService.updateUser(id, userDetails);
         return ResponseEntity.ok(updatedUser);
     }
@@ -101,7 +101,7 @@ public class UserController {
             })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(
-            @Parameter(description = "ID of the user to delete", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();

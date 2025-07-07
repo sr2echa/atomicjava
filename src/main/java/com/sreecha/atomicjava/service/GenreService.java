@@ -12,7 +12,7 @@ public interface GenreService {
     GenreResponse createGenre(GenreRequest genreRequest);
     GenreResponse getGenreById(Long id);
     Page<GenreResponse> getAllGenres(Pageable pageable);
-    List<GenreResponse> getGenresByIds(Set<Long> ids); // For getting multiple genres by IDs
+    List<GenreResponse> getGenresByIds(Set<Long> ids);
     GenreResponse updateGenre(Long id, GenreRequest genreRequest);
     void deleteGenre(Long id);
 }

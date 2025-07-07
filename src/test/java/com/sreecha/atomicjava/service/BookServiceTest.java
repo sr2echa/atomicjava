@@ -109,7 +109,7 @@ class BookServiceTest {
     @Test
     void createBook_SomeGenresNotFound() {
         when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
-        when(genreRepository.findAllById(anyIterable())).thenReturn(Arrays.asList(genre1)); // Only one genre found
+        when(genreRepository.findAllById(anyIterable())).thenReturn(Arrays.asList(genre1));
 
         assertThrows(EntityNotFoundException.class, () -> bookService.createBook(bookRequest));
         verify(bookRepository, never()).save(any(Book.class));
@@ -140,7 +140,6 @@ class BookServiceTest {
 
     @Test
     void updateBook_Success() {
-        // Create a modifiable book object for the test
         Book existingBook = Book.builder()
                 .id(1L)
                 .title("Original Title")
@@ -183,8 +182,6 @@ class BookServiceTest {
     @Test
     void deleteBook_Success() {
         when(bookRepository.existsById(1L)).thenReturn(true);
-        // Mockito.doNothing() is not needed for void methods, just verify the call
-        // doNothing().when(bookRepository).deleteById(1L);
 
         assertDoesNotThrow(() -> bookService.deleteBook(1L));
         verify(bookRepository, times(1)).deleteById(1L);

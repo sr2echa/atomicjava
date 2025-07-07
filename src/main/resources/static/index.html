@@ -10,110 +10,110 @@
             padding: 0;
             height: 100%;
             font-family: 'Roboto Mono', monospace;
-            background-color: #f8f8f8; /* Very light gray for a clean, flat background */
+            background-color: #f8f8f8;
             color: #333;
             box-sizing: border-box;
-            overflow: hidden; /* Prevent overall page scrolling */
+            overflow: hidden;
         }
 
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Center content vertically */
-            min-height: 100vh; /* Ensure body takes full viewport height */
-            padding: 15px; /* Slightly reduced overall page padding */
+            justify-content: center;
+            min-height: 100vh;
+            padding: 15px;
         }
 
         .container {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px; /* Reduced gap for a tighter, cleaner look */
+            gap: 15px;
             width: 100%;
-            max-width: 1100px; /* Slightly smaller max-width */
-            background-color: #ffffff; /* Pure white background for the main container */
-            padding: 25px; /* Slightly reduced padding */
-            border-radius: 0; /* No border-radius for a flat, modern look */
-            box-shadow: none; /* No shadows for a 2D effect */
-            height: calc(100vh - 30px); /* Fill screen height minus body padding */
-            overflow: hidden; /* Hide container scrollbar, sections will handle */
+            max-width: 1100px;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 0;
+            box-shadow: none;
+            height: calc(100vh - 30px);
+            overflow: hidden;
         }
 
         @media (min-width: 768px) {
             .container {
                 grid-template-columns: 1fr 1fr;
-                gap: 25px; /* Slightly larger gap for desktop */
+                gap: 25px;
             }
         }
 
         h1 {
-            color: #222; /* Darker heading for contrast */
+            color: #222;
             text-align: center;
-            margin-bottom: 10px; /* Reduced margin below title */
+            margin-bottom: 10px;
             grid-column: 1 / -1;
             font-weight: 700;
-            font-size: 2.4em; /* Slightly smaller title */
+            font-size: 2.4em;
             letter-spacing: -0.5px;
         }
 
         .form-section, .response-section {
             display: flex;
             flex-direction: column;
-            border: 1px solid #ddd; /* Clean, subtle border for sections */
-            padding: 18px; /* Slightly reduced section padding */
+            border: 1px solid #ddd;
+            padding: 18px;
             box-sizing: border-box;
-            background-color: #ffffff; /* White background for sections */
-            height: 100%; /* Take full height of grid cell */
-            overflow: hidden; /* Sections handle their own scrolling */
+            background-color: #ffffff;
+            height: 100%;
+            overflow: hidden;
         }
         .form-group {
-            margin-bottom: 15px; /* Consistent spacing */
+            margin-bottom: 15px;
         }
         label {
             display: block;
-            margin-bottom: 5px; /* Slightly less space below labels */
+            margin-bottom: 5px;
             font-weight: 600;
             color: #555;
-            font-size: 0.9em; /* Slightly smaller labels */
+            font-size: 0.9em;
         }
         .example-text {
             color: #888;
-            font-size: 0.75em; /* Slightly smaller for subtlety */
+            font-size: 0.75em;
             font-weight: 400;
         }
         select, input[type="text"], textarea {
             width: 100%;
-            padding: 10px; /* Reduced padding for input fields */
-            border: 1px solid #ccc; /* Flat, light gray border */
-            border-radius: 0; /* No border-radius */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 0;
             box-sizing: border-box;
-            font-size: 0.95rem; /* Slightly smaller font for inputs */
+            font-size: 0.95rem;
             background-color: #ffffff;
             color: #333;
             font-family: 'Roboto Mono', monospace;
             transition: border-color 0.2s ease;
         }
         select:focus, input[type="text"]:focus, textarea:focus {
-            border-color: #555; /* Simple darker border on focus */
+            border-color: #555;
             outline: none;
         }
         textarea {
-            flex-grow: 1; /* Allow textarea to take available space */
-            min-height: 100px; /* Minimum height for textarea */
-            resize: vertical; /* Allow vertical resize on mobile if needed */
+            flex-grow: 1;
+            min-height: 100px;
+            resize: vertical;
             overflow-y: auto;
         }
         button {
-            background-color: #333; /* Dark button */
+            background-color: #333;
             color: white;
-            padding: 10px 18px; /* Reduced padding for button */
+            padding: 10px 18px;
             border: none;
-            border-radius: 0; /* No border-radius */
+            border-radius: 0;
             cursor: pointer;
-            font-size: 1rem; /* Slightly smaller button font */
+            font-size: 1rem;
             width: 100%;
             transition: background-color 0.3s ease;
-            margin-top: 25px; /* Explicit margin to detach from previous element */
+            margin-top: 25px;
             font-weight: 600;
         }
         button:hover {
@@ -123,33 +123,32 @@
         .response-section h2 {
             color: #333;
             margin-top: 0;
-            margin-bottom: 12px; /* Slightly reduced margin below heading */
+            margin-bottom: 12px;
             font-weight: 600;
-            font-size: 1.4em; /* Slightly smaller heading */
+            font-size: 1.4em;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-bottom: 8px; /* Slightly less space below heading */
-            border-bottom: 1px solid #eee; /* Subtle separator */
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
         }
         .status-indicator {
-            padding: 0; /* No padding for the status indicator */
-            border-radius: 0; /* Flat look */
-            font-size: 0.65em; /* Very small font for status code text and message */
-            font-weight: normal; /* Normal weight for status text */
+            padding: 0;
+            border-radius: 0;
+            font-size: 0.65em;
+            font-weight: normal;
             display: flex;
             align-items: center;
-            gap: 4px; /* Reduced gap */
-            background-color: transparent; /* No background for indicator */
-            color: #333; /* All text in indicator is black */
+            gap: 4px;
+            background-color: transparent;
+            color: #333;
         }
         .status-dot {
-            width: 7px; /* Slightly smaller dot */
-            height: 7px; /* Slightly smaller dot */
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
-            flex-shrink: 0; /* Prevent dot from shrinking */
+            flex-shrink: 0;
         }
-        /* Only the dot color changes based on status */
         .status-green .status-dot {
             background-color: #28a745;
         }
@@ -163,34 +162,31 @@
             font-weight: normal;
         }
         pre {
-            background-color: #f0f0f0; /* Light gray for code block */
+            background-color: #f0f0f0;
             padding: 15px;
-            border-radius: 0; /* No border-radius */
-            overflow: auto; /* Always scrollable content */
+            border-radius: 0;
+            overflow: auto;
             white-space: pre-wrap;
             word-wrap: break-word;
-            border: 1px solid #e0e0e0; /* Subtle border */
-            flex-grow: 1; /* Allow it to take available height */
-            min-height: 150px; /* Consistent minimum height */
-            height: auto; /* Allow content to dictate initial height but be scrollable */
-            max-height: calc(100% - 60px); /* Adjusted max height to fit within section, considering header height */
-            box-sizing: border-box; /* Include padding and border in height */
+            border: 1px solid #e0e0e0;
+            flex-grow: 1;
+            min-height: 150px;
+            height: auto;
+            max-height: calc(100% - 60px);
+            box-sizing: border-box;
             color: #333;
         }
 
         @media (min-width: 768px) {
             textarea {
-                min-height: 140px; /* Adjust min-height for desktop */
-                resize: none; /* Disable resize on desktop if layout is fixed */
+                min-height: 140px;
+                resize: none;
             }
             pre {
-                max-height: none; /* Remove max-height constraint on desktop for full height */
+                max-height: none;
             }
-            .form-section {
-                /* Removed justify-content: space-between; to allow natural flow for button margin-top */
-            }
-            .form-group:last-of-type { /* Target request body form group */
-                margin-bottom: 0; /* Remove bottom margin before button */
+            .form-group:last-of-type {
+                margin-bottom: 0;
             }
         }
     </style>

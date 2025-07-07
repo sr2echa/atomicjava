@@ -58,13 +58,11 @@ public class AuthController {
                                     schema = @Schema(implementation = Map.class)))
             })
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User registration request") @RequestBody RegisterRequest registerRequest) {
-        // Check if username already exists
+    public ResponseEntity<?> registerUser(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody @RequestBody RegisterRequest registerRequest) {
         if (userService.existsByUsername(registerRequest.getUsername())) {
             throw new IllegalArgumentException("Username is already taken!");
         }
 
-        // Check if email already exists
         if (userService.existsByEmail(registerRequest.getEmail())) {
             throw new IllegalArgumentException("Email is already in use!");
         }
@@ -111,7 +109,7 @@ public class AuthController {
                                     schema = @Schema(implementation = Map.class)))
             })
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User login request") @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody @RequestBody LoginRequest loginRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));

@@ -41,7 +41,7 @@ public class Book {
 
     private String coverImageUrl;
 
-    private Double averageRating; // Will be calculated/updated based on reviews
+    private Double averageRating;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "author_id", nullable = false)

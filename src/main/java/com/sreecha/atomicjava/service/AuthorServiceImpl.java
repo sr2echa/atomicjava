@@ -61,7 +61,6 @@ public class AuthorServiceImpl implements AuthorService {
         authorRepository.deleteById(id);
     }
 
-    // Helper method to convert Author entity to AuthorResponse DTO
     private AuthorResponse toAuthorResponse(Author author) {
         return new AuthorResponse(
                 author.getId(),

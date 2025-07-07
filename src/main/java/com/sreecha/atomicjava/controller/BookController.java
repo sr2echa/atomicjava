@@ -35,15 +35,15 @@ public class BookController {
             })
     @GetMapping
     public ResponseEntity<Page<BookResponse>> getAllBooks(
-            @Parameter(description = "Page number (0-indexed)", example = "0")
+            @Parameter(example = "0")
             @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Number of items per page", example = "10")
+            @Parameter(example = "10")
             @RequestParam(defaultValue = "10") int size,
-            @Parameter(description = "Search query for book title or author name", example = "Lord of the Rings")
+            @Parameter(example = "Lord of the Rings")
             @RequestParam(required = false) String query,
-            @Parameter(description = "Filter by author name", example = "J.R.R. Tolkien")
+            @Parameter(example = "J.R.R. Tolkien")
             @RequestParam(required = false) String authorName,
-            @Parameter(description = "Filter by genre name", example = "Fantasy")
+            @Parameter(example = "Fantasy")
             @RequestParam(required = false) String genreName) {
         Pageable pageable = PageRequest.of(page, size);
         Page<BookResponse> books = bookService.searchBooks(query, authorName, genreName, pageable);
@@ -59,7 +59,7 @@ public class BookController {
             })
     @GetMapping("/{id}")
     public ResponseEntity<BookResponse> getBookById(
-            @Parameter(description = "ID of the book to retrieve", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id) {
         BookResponse book = bookService.getBookById(id);
         return ResponseEntity.ok(book);
@@ -73,7 +73,7 @@ public class BookController {
                     @ApiResponse(responseCode = "400", description = "Invalid book data provided")
             })
     @PostMapping
-    public ResponseEntity<BookResponse> createBook(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Book creation request") @RequestBody BookRequest bookRequest) {
+    public ResponseEntity<BookResponse> createBook(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody @RequestBody BookRequest bookRequest) {
         BookResponse createdBook = bookService.createBook(bookRequest);
         return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
     }
@@ -88,9 +88,9 @@ public class BookController {
             })
     @PutMapping("/{id}")
     public ResponseEntity<BookResponse> updateBook(
-            @Parameter(description = "ID of the book to update", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id,
-            @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Book update request") @RequestBody BookRequest bookRequest) {
+            @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody @RequestBody BookRequest bookRequest) {
         BookResponse updatedBook = bookService.updateBook(id, bookRequest);
         return ResponseEntity.ok(updatedBook);
     }
@@ -102,7 +102,7 @@ public class BookController {
             })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(
-            @Parameter(description = "ID of the book to delete", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id) {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();

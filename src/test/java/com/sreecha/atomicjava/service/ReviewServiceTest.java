@@ -211,14 +211,14 @@ class ReviewServiceTest {
     void updateReview_Unauthorized() {
         when(reviewRepository.findById(1L)).thenReturn(Optional.of(review));
 
-        assertThrows(SecurityException.class, () -> reviewService.updateReview(1L, reviewRequest, 2L)); // Different user ID
+        assertThrows(SecurityException.class, () -> reviewService.updateReview(1L, reviewRequest, 2L));
         verify(reviewRepository, never()).save(any(Review.class));
     }
 
     @Test
     void deleteReview_Success() {
         when(reviewRepository.findById(1L)).thenReturn(Optional.of(review));
-        when(reviewRepository.findByBook(any(Book.class), any(Pageable.class))).thenReturn(new PageImpl<>(Arrays.asList())); // No reviews left
+        when(reviewRepository.findByBook(any(Book.class), any(Pageable.class))).thenReturn(new PageImpl<>(Arrays.asList()));
         when(bookRepository.save(any(Book.class))).thenReturn(book);
 
         assertDoesNotThrow(() -> reviewService.deleteReview(1L, 1L));
@@ -238,7 +238,7 @@ class ReviewServiceTest {
     void deleteReview_Unauthorized() {
         when(reviewRepository.findById(1L)).thenReturn(Optional.of(review));
 
-        assertThrows(SecurityException.class, () -> reviewService.deleteReview(1L, 2L)); // Different user ID
+        assertThrows(SecurityException.class, () -> reviewService.deleteReview(1L, 2L));
         verify(reviewRepository, never()).delete(any(Review.class));
     }
 }

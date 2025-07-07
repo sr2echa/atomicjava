@@ -35,9 +35,9 @@ public class AuthorController {
             })
     @GetMapping
     public ResponseEntity<Page<AuthorResponse>> getAllAuthors(
-            @Parameter(description = "Page number (0-indexed)", example = "0")
+            @Parameter(example = "0")
             @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Number of items per page", example = "10")
+            @Parameter(example = "10")
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<AuthorResponse> authors = authorService.getAllAuthors(pageable);
@@ -53,7 +53,7 @@ public class AuthorController {
             })
     @GetMapping("/{id}")
     public ResponseEntity<AuthorResponse> getAuthorById(
-            @Parameter(description = "ID of the author to retrieve", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id) {
         AuthorResponse author = authorService.getAuthorById(id);
         return ResponseEntity.ok(author);
@@ -67,7 +67,7 @@ public class AuthorController {
                     @ApiResponse(responseCode = "400", description = "Invalid author data provided")
             })
     @PostMapping
-    public ResponseEntity<AuthorResponse> createAuthor(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Author creation request") @RequestBody AuthorRequest authorRequest) {
+    public ResponseEntity<AuthorResponse> createAuthor(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody @RequestBody AuthorRequest authorRequest) {
         AuthorResponse createdAuthor = authorService.createAuthor(authorRequest);
         return new ResponseEntity<>(createdAuthor, HttpStatus.CREATED);
     }
@@ -82,9 +82,9 @@ public class AuthorController {
             })
     @PutMapping("/{id}")
     public ResponseEntity<AuthorResponse> updateAuthor(
-            @Parameter(description = "ID of the author to update", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id,
-            @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Author update request") @RequestBody AuthorRequest authorRequest) {
+            @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody @RequestBody AuthorRequest authorRequest) {
         AuthorResponse updatedAuthor = authorService.updateAuthor(id, authorRequest);
         return ResponseEntity.ok(updatedAuthor);
     }
@@ -96,7 +96,7 @@ public class AuthorController {
             })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAuthor(
-            @Parameter(description = "ID of the author to delete", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id) {
         authorService.deleteAuthor(id);
         return ResponseEntity.noContent().build();

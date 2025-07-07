@@ -36,5 +36,5 @@ public class ReviewRequest {
     @Schema(description = "ID of the book being reviewed", example = "1")
     private Long bookId;
 
-    // User ID <- authenticated user context, not from the request body
+    
 }

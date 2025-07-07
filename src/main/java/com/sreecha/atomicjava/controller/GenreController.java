@@ -35,9 +35,9 @@ public class GenreController {
             })
     @GetMapping
     public ResponseEntity<Page<GenreResponse>> getAllGenres(
-            @Parameter(description = "Page number (0-indexed)", example = "0")
+            @Parameter(example = "0")
             @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Number of items per page", example = "10")
+            @Parameter(example = "10")
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<GenreResponse> genres = genreService.getAllGenres(pageable);
@@ -53,7 +53,7 @@ public class GenreController {
             })
     @GetMapping("/{id}")
     public ResponseEntity<GenreResponse> getGenreById(
-            @Parameter(description = "ID of the genre to retrieve", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id) {
         GenreResponse genre = genreService.getGenreById(id);
         return ResponseEntity.ok(genre);
@@ -67,7 +67,7 @@ public class GenreController {
                     @ApiResponse(responseCode = "400", description = "Invalid genre data provided")
             })
     @PostMapping
-    public ResponseEntity<GenreResponse> createGenre(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Genre creation request") @RequestBody GenreRequest genreRequest) {
+    public ResponseEntity<GenreResponse> createGenre(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody @RequestBody GenreRequest genreRequest) {
         GenreResponse createdGenre = genreService.createGenre(genreRequest);
         return new ResponseEntity<>(createdGenre, HttpStatus.CREATED);
     }
@@ -82,9 +82,9 @@ public class GenreController {
             })
     @PutMapping("/{id}")
     public ResponseEntity<GenreResponse> updateGenre(
-            @Parameter(description = "ID of the genre to update", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id,
-            @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Genre update request") @RequestBody GenreRequest genreRequest) {
+            @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody @RequestBody GenreRequest genreRequest) {
         GenreResponse updatedGenre = genreService.updateGenre(id, genreRequest);
         return ResponseEntity.ok(updatedGenre);
     }
@@ -96,7 +96,7 @@ public class GenreController {
             })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGenre(
-            @Parameter(description = "ID of the genre to delete", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id) {
         genreService.deleteGenre(id);
         return ResponseEntity.noContent().build();

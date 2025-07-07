@@ -32,5 +32,5 @@ public class RegisterRequest {
     private String password;
 
     @Schema(description = "Optional roles for the user (e.g., [\"ADMIN\", \"MODERATOR\"])", example = "[\"USER\"]")
-    private Set<String> roles; // Optional
+    private Set<String> roles;
 }

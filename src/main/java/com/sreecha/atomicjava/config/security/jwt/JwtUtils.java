@@ -45,13 +45,9 @@ public class JwtUtils {
             Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);
             return true;
         } catch (MalformedJwtException e) {
-            // TODO: Log invalid JWT token: {}
         } catch (ExpiredJwtException e) {
-            // TODO: Log JWT token is expired: {}
         } catch (UnsupportedJwtException e) {
-            // TODO: Log JWT token is unsupported: {}
         } catch (IllegalArgumentException e) {
-            // TODO: Log JWT claims string is empty: {}
         }
         return false;
     }

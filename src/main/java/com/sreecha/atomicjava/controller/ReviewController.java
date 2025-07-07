@@ -39,7 +39,7 @@ public class ReviewController {
                     @ApiResponse(responseCode = "404", description = "Book or User not found")
             })
     @PostMapping
-    public ResponseEntity<ReviewResponse> createReview(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Review creation request") @RequestBody ReviewRequest reviewRequest) {
+    public ResponseEntity<ReviewResponse> createReview(@Valid @io.swagger.v3.oas.annotations.parameters.RequestBody @RequestBody ReviewRequest reviewRequest) {
         Long currentUserId = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         ReviewResponse createdReview = reviewService.createReview(reviewRequest, currentUserId);
         return new ResponseEntity<>(createdReview, HttpStatus.CREATED);
@@ -54,7 +54,7 @@ public class ReviewController {
             })
     @GetMapping("/{id}")
     public ResponseEntity<ReviewResponse> getReviewById(
-            @Parameter(description = "ID of the review to retrieve", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id) {
         ReviewResponse review = reviewService.getReviewById(id);
         return ResponseEntity.ok(review);
@@ -69,11 +69,11 @@ public class ReviewController {
             })
     @GetMapping("/book/{bookId}")
     public ResponseEntity<Page<ReviewResponse>> getReviewsByBookId(
-            @Parameter(description = "ID of the book to retrieve reviews for", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long bookId,
-            @Parameter(description = "Page number (0-indexed)", example = "0")
+            @Parameter(example = "0")
             @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Number of items per page", example = "10")
+            @Parameter(example = "10")
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<ReviewResponse> reviews = reviewService.getReviewsByBookId(bookId, pageable);
@@ -89,11 +89,11 @@ public class ReviewController {
             })
     @GetMapping("/user/{userId}")
     public ResponseEntity<Page<ReviewResponse>> getReviewsByUserId(
-            @Parameter(description = "ID of the user to retrieve reviews for", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long userId,
-            @Parameter(description = "Page number (0-indexed)", example = "0")
+            @Parameter(example = "0")
             @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Number of items per page", example = "10")
+            @Parameter(example = "10")
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<ReviewResponse> reviews = reviewService.getReviewsByUserId(userId, pageable);
@@ -112,9 +112,9 @@ public class ReviewController {
             })
     @PutMapping("/{id}")
     public ResponseEntity<ReviewResponse> updateReview(
-            @Parameter(description = "ID of the review to update", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id,
-            @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Review update request") @RequestBody ReviewRequest reviewRequest) {
+            @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody @RequestBody ReviewRequest reviewRequest) {
         Long currentUserId = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         ReviewResponse updatedReview = reviewService.updateReview(id, reviewRequest, currentUserId);
         return ResponseEntity.ok(updatedReview);
@@ -129,7 +129,7 @@ public class ReviewController {
             })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReview(
-            @Parameter(description = "ID of the review to delete", example = "1")
+            @Parameter(example = "1")
             @PathVariable Long id) {
         Long currentUserId = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         reviewService.deleteReview(id, currentUserId);
