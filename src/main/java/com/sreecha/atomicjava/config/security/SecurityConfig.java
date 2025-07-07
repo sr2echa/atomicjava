@@ -61,7 +61,7 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/error", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/error", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**", "/**").permitAll()
                         .requestMatchers("/api/books/**").permitAll()
                         .requestMatchers("/api/reviews/**").hasAnyRole("USER", "MODERATOR", "ADMIN")
                         .requestMatchers("/api/authors/**", "/api/genres/**").hasAnyRole("MODERATOR", "ADMIN")
