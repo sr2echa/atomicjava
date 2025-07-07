@@ -161,6 +161,13 @@ This interface allows you to explore all available endpoints, their request/resp
 
 ## Testing
 
+Visit `http://localhost:18080` to access the Playground to test all the endpoints
+
+![image](https://github.com/user-attachments/assets/4b26b474-74df-4097-a3aa-b3b86646a4d0)
+> It will autofill the json body as well so all you have to do is just submitadn play around :))
+
+<br>
+
 To run all unit and integration tests:
 
 ```bash
