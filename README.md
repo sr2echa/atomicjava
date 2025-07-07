@@ -3,6 +3,7 @@
 A Spring Boot backend for a peer-to-peer book review service, analogous to platforms like Letterboxd (but without following, upvotes, etc.). This project focuses on a robust data model, secure access, and high-quality implementation through comprehensive testing.
 
 ## erDiagram
+(view this in the desktop browser)
 ```mermaid
 erDiagram
     User {
