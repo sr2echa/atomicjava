@@ -174,7 +174,8 @@ To run all unit and integration tests:
 ./mvnw test
 ```
 
-![image](https://github.com/user-attachments/assets/8e6f11c9-e71b-46cc-9242-cc452942b6af)
+![image](https://github.com/user-attachments/assets/5744dd75-661b-4944-9360-3dbf5e68b779)
+
 
 
 ## CI/CD
